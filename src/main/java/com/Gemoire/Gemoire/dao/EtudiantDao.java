@@ -5,11 +5,15 @@
  */
 package com.Gemoire.Gemoire.dao;
 
+import com.Gemoire.Gemoire.entity.Etudiant;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author jahaelle
  */
-public interface ExaminateurDao {
-    
+@Repository
+public interface EtudiantDao extends JpaRepository<Etudiant, Long>{
     
 }

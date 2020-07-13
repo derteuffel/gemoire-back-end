@@ -6,6 +6,7 @@
 package com.Gemoire.Gemoire.entity;
 
 import java.io.Serializable;
+import java.net.URL;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,13 +20,11 @@ import lombok.Data;
  */
 @Data
 @Entity
-public class Admin implements Serializable {
+public  class Pieces_jointes implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-   @Column(nullable = false)
-    private String nomAdmin;
-   @Column(nullable = false)
-    private String password;
-    
+    private Long id;
+   @Column(name="url",nullable=false)
+   private URL url; 
 }

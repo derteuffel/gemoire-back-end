@@ -7,25 +7,21 @@ package com.Gemoire.Gemoire.entity;
 
 import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import lombok.Data;
 
 /**
  *
  * @author jahaelle
  */
-@Data
-@Entity
-public class Admin implements Serializable {
-    @Id
+public class Departement  implements Serializable{ 
+@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-   @Column(nullable = false)
-    private String nomAdmin;
-   @Column(nullable = false)
-    private String password;
+    private Long id_departement;
+@Column(name = "code_departement",nullable = false)
+private String code_departement;
+@Column(name = "intitule_departement",nullable = false)
+private String intitule_departement;
     
 }

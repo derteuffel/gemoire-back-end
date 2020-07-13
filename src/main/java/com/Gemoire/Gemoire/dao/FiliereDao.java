@@ -5,10 +5,13 @@
  */
 package com.Gemoire.Gemoire.dao;
 
+import com.Gemoire.Gemoire.entity.Filiere;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 /**
  *
  * @author jahaelle
  */
-public interface AuteurDao {
+public interface FiliereDao extends JpaRepository<Filiere, Long>{
     
 }

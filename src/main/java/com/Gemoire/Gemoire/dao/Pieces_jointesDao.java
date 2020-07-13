@@ -5,7 +5,7 @@
  */
 package com.Gemoire.Gemoire.dao;
 
-import com.Gemoire.Gemoire.entity.Admin;
+import com.Gemoire.Gemoire.entity.Pieces_jointes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author jahaelle
  */
 @Repository
-public interface AdminDao extends JpaRepository<Admin, Long>{
+public interface Pieces_jointesDao extends JpaRepository<Pieces_jointes, Long>{
     
 }

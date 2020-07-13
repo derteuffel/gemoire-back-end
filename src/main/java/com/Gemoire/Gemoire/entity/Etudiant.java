@@ -6,11 +6,13 @@
 package com.Gemoire.Gemoire.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.Data;
 
 /**
@@ -19,13 +21,16 @@ import lombok.Data;
  */
 @Data
 @Entity
-public class Admin implements Serializable {
-    @Id
+public class Etudiant  implements Serializable{ 
+@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-   @Column(nullable = false)
-    private String nomAdmin;
-   @Column(nullable = false)
-    private String password;
+    private Long id;
+@Column(nullable = false)
+private String matriculeEtudiant;
+@Column(nullable = false)
+private String nomEtudiant;
+
+@OneToMany(mappedBy="etudiant")
+private List<Memoire> memoires;
     
 }
