@@ -32,6 +32,7 @@ private String intituleDiplome;
 
 @OneToMany(mappedBy="diplome")
 private List<Memoire> memoires;
+
 @ManyToMany(mappedBy="diplome")
 private List<Filiere> filiere;
       

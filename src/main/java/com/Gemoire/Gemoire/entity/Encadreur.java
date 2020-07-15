@@ -23,8 +23,8 @@ import lombok.Data;
 @Entity
 public class Encadreur  implements Serializable{ 
 @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
 @Column(nullable = false)
 private String nomEncadreur;
 @Column(nullable = false)

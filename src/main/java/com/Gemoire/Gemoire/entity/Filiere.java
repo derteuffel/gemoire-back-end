@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Data;
 
@@ -36,5 +37,8 @@ private List<Memoire> memoires;
 
 @ManyToMany
 private List<Diplome> diplome;
+
+@ManyToOne
+private  Departement departement;
    
 }
