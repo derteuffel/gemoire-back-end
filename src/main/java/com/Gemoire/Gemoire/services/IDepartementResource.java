@@ -22,13 +22,14 @@ import org.springframework.http.ResponseEntity;
  *
  * @author jahaelle
  */
+@Path("/departements")
 public interface IDepartementResource {
-       @POST
+       @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<Departement> addDepartement(Departement departement);
     
-     @PUT
+     @POST
     @Path("{id : \\d+}")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<Departement> updateDepartement(@PathParam("id") long id, Departement departement);
