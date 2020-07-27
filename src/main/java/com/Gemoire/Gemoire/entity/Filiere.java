@@ -5,6 +5,7 @@
  */
 package com.Gemoire.Gemoire.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlTransient;
 import lombok.Data;
 
 /**
@@ -32,9 +34,13 @@ private String codeFiliere;
 @Column(nullable = false)
 private String intituleFiliere;
 
+@JsonIgnore
+ @XmlTransient
 @OneToMany(mappedBy="filiere")
 private List<Memoire> memoires;
 
+@JsonIgnore
+ @XmlTransient
 @ManyToMany
 private List<Diplome> diplome;
 

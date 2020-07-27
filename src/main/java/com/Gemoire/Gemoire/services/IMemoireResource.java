@@ -38,26 +38,26 @@ public interface IMemoireResource {
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<Page<Memoire>> searchByEncadreur(@QueryParam("nomEncadreur")String nomEncadreur, @DefaultValue("0") @QueryParam("page")int page, @DefaultValue("10") @QueryParam("size")int size);
     
-//     @GET
-//      @Path("/search")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public ResponseEntity<Page<Memoire>> searchByMotCles(@QueryParam("motCles")String motCles,@DefaultValue("0") @QueryParam("page")int page, @DefaultValue("10") @QueryParam("size")int size);
-//     @GET
-//      @Path("/search")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public ResponseEntity<Page<Memoire>> searchByDiplome( @QueryParam("nomEncadreur")String intituleDiplome,@DefaultValue("0") @QueryParam("page")int page, @DefaultValue("10") @QueryParam("size")int size);
-//    
-//     @GET
-//     @Path("/search")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public ResponseEntity<Page<Memoire>> searchByTitre( @QueryParam("titre")String titre,@DefaultValue("0") @QueryParam("page")int page, @DefaultValue("10") @QueryParam("size")int size);
-//     
+    @GET
+    @Path("/searchByMot")
+   @Produces(MediaType.APPLICATION_JSON)
+    public ResponseEntity<Page<Memoire>> searchByMotCles(@QueryParam("motCles")String motCles,@DefaultValue("0") @QueryParam("page")int page, @DefaultValue("10") @QueryParam("size")int size);
+    @GET
+     @Path("/searchByDiplome")
+    @Produces(MediaType.APPLICATION_JSON)
+   public ResponseEntity<Page<Memoire>> searchByDiplome( @QueryParam("nomEncadreur")String intituleDiplome,@DefaultValue("0") @QueryParam("page")int page, @DefaultValue("10") @QueryParam("size")int size);
+   
+     @GET
+     @Path("/searchByTitre")
+    @Produces(MediaType.APPLICATION_JSON)
+   public ResponseEntity<Page<Memoire>> searchByTitre( @QueryParam("titre")String titre,@DefaultValue("0") @QueryParam("page")int page, @DefaultValue("10") @QueryParam("size")int size);
+    
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<Memoire> addMemoire(Memoire memoire);
     
-     @PUT
+     @POST
     @Path("{id : \\d+}")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<Memoire> updateMemoire(@PathParam("id") long id, Memoire memoire);

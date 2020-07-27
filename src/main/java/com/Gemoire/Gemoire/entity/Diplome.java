@@ -5,6 +5,7 @@
  */
 package com.Gemoire.Gemoire.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlTransient;
 import lombok.Data;
 
 /**
@@ -23,7 +25,7 @@ import lombok.Data;
 @Entity
 public class Diplome { 
 @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 @Column(nullable = false)
 private String codeDiplome;
@@ -33,6 +35,8 @@ private String intituleDiplome;
 @OneToMany(mappedBy="diplome")
 private List<Memoire> memoires;
 
+@JsonIgnore
+ @XmlTransient
 @ManyToMany(mappedBy="diplome")
 private List<Filiere> filiere;
       

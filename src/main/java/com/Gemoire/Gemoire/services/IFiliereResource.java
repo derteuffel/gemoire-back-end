@@ -19,14 +19,16 @@ import javax.ws.rs.DefaultValue;
 import org.springframework.data.domain.Page;
 import javax.ws.rs.core.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  *
  * @author jahaelle
  */
+@CrossOrigin("*")
 @Path("/filieres")
 public interface IFiliereResource {
-    @POST
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<Filiere> addFiliere(Filiere filiere);
@@ -36,7 +38,7 @@ public interface IFiliereResource {
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<Filiere> findFiliere(@PathParam("id") long id);
     
-     @PUT
+    @POST
     @Path("{id : \\d+}")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<Filiere> updateFiliere(@PathParam("id") long id, Filiere filiere);
@@ -45,5 +47,10 @@ public interface IFiliereResource {
     @Path("{id : \\d+}")
     @Produces(MediaType.APPLICATION_JSON)
     public void deleteFiliere(@PathParam("id") long id);
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Page<Filiere>findAllFilieres(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("size") @DefaultValue("10")int size);
+    
     
 }

@@ -5,6 +5,7 @@
  */
 package com.Gemoire.Gemoire.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlTransient;
 import lombok.Data;
 
 /**
@@ -23,7 +25,7 @@ import lombok.Data;
 @Entity
 public class Encadreur  implements Serializable{ 
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 @Column(nullable = false)
 private String nomEncadreur;
@@ -31,7 +33,8 @@ private String nomEncadreur;
 private String titreEncadreur;
 @Column(nullable = false)
 private String gradeEncadreur;
-    
+ @JsonIgnore
+ @XmlTransient
 @OneToMany(mappedBy="encadreur")
 private List<Memoire> memoires;
 }
