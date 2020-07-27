@@ -11,6 +11,8 @@ import com.Gemoire.Gemoire.entity.Filiere;
 import com.Gemoire.Gemoire.services.IEncadreurResource;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -48,6 +50,11 @@ private EncadreurDao encadreurDao;
     @Override
     public void deleteEncadreur(long id) {
         encadreurDao.deleteById(id);
+    }
+
+    @Override
+    public Page<Encadreur> findAllEncadreurs(int page, int size) {
+          return encadreurDao.findAll(PageRequest.of(page, size));
     }
     
 }

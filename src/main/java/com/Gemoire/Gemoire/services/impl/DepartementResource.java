@@ -10,6 +10,8 @@ import com.Gemoire.Gemoire.entity.Departement;
 import com.Gemoire.Gemoire.services.IDepartementResource;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -41,10 +43,16 @@ private DepartementDao departementDao;
         ).orElse(
                 ResponseEntity.notFound().build()
         );    }
+    
 
     @Override
     public void deleteDepartement(long id) {
         departementDao.deleteById(id);
+    }
+
+    @Override
+    public Page<Departement> findAllDepartements(int page, int size) {
+           return departementDao.findAll(PageRequest.of(page, size));
     }
     
 }

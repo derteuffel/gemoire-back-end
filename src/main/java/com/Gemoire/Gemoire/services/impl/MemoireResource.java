@@ -44,15 +44,15 @@ public class MemoireResource implements IMemoireResource {
       return (ResponseEntity<Page<Memoire>>) memoireDao.findByEncadreurNomEncadreurLike("%" +nomEncadreur + "%", PageRequest.of(p, size));
     }
 
-//    @Override
-//    public ResponseEntity<Page<Memoire>> searchByMotCles(String motCles,int p, int size) {
-//       return (ResponseEntity<Page<Memoire>>) memoireDao.findByMotClesLike("%" + motCles + "%", PageRequest.of(p, size));
-//    }
-//
-//    @Override
-//    public ResponseEntity<Page<Memoire>> searchByDiplome(String intituleDiplome,int p, int size) {
-//         return (ResponseEntity<Page<Memoire>>) memoireDao.findByDiplomeIntituleDiplomeLike(intituleDiplome,PageRequest.of(p, size));
-    //}
+    @Override
+    public ResponseEntity<Page<Memoire>> searchByMotCles(String motCles,int p, int size) {
+       return (ResponseEntity<Page<Memoire>>) memoireDao.findByMotClesLike("%" + motCles + "%", PageRequest.of(p, size));
+    }
+
+    @Override
+    public ResponseEntity<Page<Memoire>> searchByDiplome(String intituleDiplome,int p, int size) {
+         return (ResponseEntity<Page<Memoire>>) memoireDao.findByDiplomeIntituleDiplomeLike(intituleDiplome,PageRequest.of(p, size));
+    }
 
     @Override
     public ResponseEntity<Memoire> updateMemoire(long id, Memoire memoire) {
@@ -63,10 +63,9 @@ public class MemoireResource implements IMemoireResource {
     public void deleteMemoire(long id) {
          memoireDao.deleteById(id);
     }
-
-//    @Override
-//    public ResponseEntity<Page<Memoire>> searchByTitre(String titre, int page, int size) {
-//        return (ResponseEntity<Page<Memoire>>) memoireDao.findByTitre(titre, PageRequest.of(page, size));
-//    }
+    @Override
+   public ResponseEntity<Page<Memoire>> searchByTitre(String titre, int page, int size) {
+        return (ResponseEntity<Page<Memoire>>) memoireDao.findByTitre(titre, PageRequest.of(page, size));
+   }
 
 }

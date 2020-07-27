@@ -10,6 +10,7 @@ import com.Gemoire.Gemoire.entity.Etudiant;
 import com.Gemoire.Gemoire.services.IEtudiantResource;
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -47,5 +48,11 @@ private EtudiantDao etudiantDao;
                etudiantDao.deleteById(id);
         
         }
+
+    @Override
+    public ResponseEntity<Etudiant> findAllEtudiants(int page, int size) {
+         return (ResponseEntity<Etudiant>) etudiantDao.findAll(PageRequest.of(page, size));
+    }
+    
     
 }

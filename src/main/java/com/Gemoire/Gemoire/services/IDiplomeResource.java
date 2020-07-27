@@ -23,12 +23,12 @@ import org.springframework.http.ResponseEntity;
  */
 @Path("/diplomes")
 public interface IDiplomeResource {
-    @POST
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ResponseEntity<Diplome> addDiplome(Diplome diplome);
     
-     @PUT
+     @POST
     @Path("{id : \\d+}")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<Diplome> updateDiplome(@PathParam("id") long id, Diplome diplome);
