@@ -1,0 +1,20 @@
+<div class="container-fluid">
+<p>La liste des départements</p>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Code</th>
+            <th>Intitule</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let departement of departements; let index = index">
+            <td> {{ index + 1}}</td>
+            <td>{{ departement.codeDepartement}}</td>
+            <td>{{ departement.intituleDepartement}}</td>
+        </tr>
+        
+    </tbody>
+</table>
+</div>
