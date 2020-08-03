@@ -52,7 +52,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "node_modules/primeng/resources/primeng.min.css"
             ],
             "scripts": []
           },
@@ -105,6 +108,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "client"
+    }
+  },
+  "defaultProject": "client",
+  "cli": {
+    "analytics": "b51ac36f-010a-432e-9080-d3f0566d0c0a"
+  }
 }
