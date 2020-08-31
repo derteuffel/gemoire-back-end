@@ -13,5 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author jahaelle
  */
 public interface FiliereDao extends JpaRepository<Filiere, Long>{
-    
+
+    Filiere findByCodeFiliereOrIntituleFiliere(String code, String intitule);
 }

@@ -8,10 +8,19 @@ import { AppComponent } from './app.component';
 import { FiliereService } from './services/filiere.service';
 import { FormsModule } from '@angular/forms';
 import { MemoiresService } from './services/memoires.service';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { HomeComponent } from './home/home.component';
+import { authInterceptorProviders } from './_helpers/auth.interceptor';
+import { NewMemoireComponent } from './new-memoire/new-memoire.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    RegisterComponent,
+    HomeComponent,
+    NewMemoireComponent,
   
   ],
   imports: [
@@ -23,7 +32,8 @@ import { MemoiresService } from './services/memoires.service';
   ],
   providers: [
     FiliereService,
-    MemoiresService
+    MemoiresService,
+    authInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

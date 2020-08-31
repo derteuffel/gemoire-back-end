@@ -1,0 +1,25 @@
+<div class="container">
+    <header class="jumbotron">
+        <p>{{ content }}</p>
+    </header>
+    <div class="container-fluid">
+        <div class="ui-button">
+            <a routerLink="new-memoire" class="btn btn-primary">Nouveau</a>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-xl-3" *ngFor="let item of memoires|async">
+                <div class="ui-card">
+                    <div class="ui-card-title">
+                        <span>Titre : {{item.titre}}</span>
+                    </div>
+                    <div class="ui-card-body">
+                        <span>Session : {{item.session}}</span>
+                        <hr>
+                        <span>{{item.contenu}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

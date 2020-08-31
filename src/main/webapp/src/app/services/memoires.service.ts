@@ -1,40 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import {Memoire} from "../_models/memoire";
 
+const MEMOIRE_API = 'http://localhost:8080/rest/memoire/';
+
+const httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 @Injectable({
   providedIn: 'root'
 })
 export class MemoiresService {
 
-  URL: string;
-  constructor(private http: HttpClient) { 
-    this.URL = environment.url;
-  }
+    constructor(private http: HttpClient) { }
 
-// ajouterMemoire(): Observable<any> {
-//     return this.http.put<any>(this.URL + `memoires`);
-// }
-AllMemoires() :Observable<any>{
-    return this.http.get<any>(this.URL + 'memoires');
+    findAllMemoires(): Observable<any>{
+        return this.http.get(MEMOIRE_API+'lists');
+    }
 
-}
+    saveMemoire(memoire:any): Observable<any>{
+        return this.http.post(MEMOIRE_API+'save',memoire);
+    }
 
-findByTitre(): Observable<any>{
-    return this.http.get<any>(this.URL +'memoires/searchByTitre');
-}
 
-findByDiplome(): Observable<any>{
-    return this.http.get<any>(this.URL +'memoires/searchByDiplome');
-}
-
-findByMotCles(): Observable<any>{
-    return this.http.get<any>(this.URL +'memoires/searchByMotCles');
-} 
- 
-findByEncadreur(): Observable<any>{
-    return this.http.get<any>(this.URL +'memoires/searchByEncadreur');
-} 
 
 }

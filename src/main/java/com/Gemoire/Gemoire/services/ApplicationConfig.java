@@ -5,6 +5,8 @@
  */
 package com.Gemoire.Gemoire.services;
 
+import com.Gemoire.Gemoire.controllers.AuthController;
+import com.Gemoire.Gemoire.controllers.HomeController;
 import com.Gemoire.Gemoire.services.impl.DepartementResource;
 import com.Gemoire.Gemoire.services.impl.DiplomeResource;
 import com.Gemoire.Gemoire.services.impl.EncadreurResource;
@@ -29,5 +31,7 @@ public class ApplicationConfig extends ResourceConfig {
         register(DiplomeResource.class);
         register(EtudiantResource.class);
         register(EncadreurResource.class);
+        register(AuthController.class);
+        register(HomeController.class);
     }
 }

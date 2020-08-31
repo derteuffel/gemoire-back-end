@@ -35,5 +35,36 @@ private String nomEtudiant;
  @XmlTransient
 @OneToMany(mappedBy="etudiant")
 private List<Memoire> memoires;
-    
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMatriculeEtudiant() {
+        return matriculeEtudiant;
+    }
+
+    public void setMatriculeEtudiant(String matriculeEtudiant) {
+        this.matriculeEtudiant = matriculeEtudiant;
+    }
+
+    public String getNomEtudiant() {
+        return nomEtudiant;
+    }
+
+    public void setNomEtudiant(String nomEtudiant) {
+        this.nomEtudiant = nomEtudiant;
+    }
+
+    public List<Memoire> getMemoires() {
+        return memoires;
+    }
+
+    public void setMemoires(List<Memoire> memoires) {
+        this.memoires = memoires;
+    }
 }

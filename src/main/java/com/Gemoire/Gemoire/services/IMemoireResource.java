@@ -18,6 +18,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.DefaultValue;
+
+import com.Gemoire.Gemoire.helpers.MemoireHelper;
 import org.springframework.data.domain.Page;
 import javax.ws.rs.core.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +57,7 @@ public interface IMemoireResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResponseEntity<Memoire> addMemoire(Memoire memoire);
+    public ResponseEntity<Memoire> addMemoire(MemoireHelper memoire);
     
      @POST
     @Path("{id : \\d+}")

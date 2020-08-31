@@ -7,8 +7,14 @@ package com.Gemoire.Gemoire.services.impl;
 
 import com.Gemoire.Gemoire.dao.MemoireDao;
 import com.Gemoire.Gemoire.entity.Memoire;
+import com.Gemoire.Gemoire.helpers.MemoireHelper;
 import com.Gemoire.Gemoire.services.IMemoireResource;
 import java.net.URI;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,8 +30,26 @@ public class MemoireResource implements IMemoireResource {
     private MemoireDao memoireDao;
     
     @Override
-     public ResponseEntity<Memoire> addMemoire(Memoire memoire){
-         Memoire m =memoireDao.save(memoire);
+     public ResponseEntity<Memoire> addMemoire(MemoireHelper memoire){
+        DateFormat sdf =  new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        Date date = new Date();
+         Memoire m =new Memoire();
+         m.setTitre(memoire.getTitre());
+         m.setResume(memoire.getResume());
+         m.setAbstractMemoire(memoire.getAbstractMemoire());
+         m.setNombreTelechargement(0L);
+         m.setNombreVue(0L);
+         m.setDateInsertion(sdf.format(date));
+         m.setDateDerniereVue(sdf.format(date));
+         m.setSession(sdf.format(memoire.getSession()));
+         String[] strings=memoire.getMotCles().split(",");
+         for (String item:strings){
+             if (m.getMotCles().isEmpty()){
+                 m.setMotCles(Arrays.asList(item));
+             }else {
+                 m.getMotCles().add(item);
+             }
+         }
          URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(m.getId())
@@ -40,6 +64,26 @@ public class MemoireResource implements IMemoireResource {
     }
 
     @Override
+    public ResponseEntity<Page<Memoire>> searchByEncadreur(String nomEncadreur, int page, int size) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Page<Memoire>> searchByMotCles(String motCles, int page, int size) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Page<Memoire>> searchByDiplome(String intituleDiplome, int page, int size) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Page<Memoire>> searchByTitre(String titre, int page, int size) {
+        return null;
+    }
+
+   /* @Override
     public ResponseEntity<Page<Memoire>> searchByEncadreur(String nomEncadreur,int p, int size) {
       return (ResponseEntity<Page<Memoire>>) memoireDao.findByEncadreurNomEncadreurLike("%" +nomEncadreur + "%", PageRequest.of(p, size));
     }
@@ -52,7 +96,7 @@ public class MemoireResource implements IMemoireResource {
     @Override
     public ResponseEntity<Page<Memoire>> searchByDiplome(String intituleDiplome,int p, int size) {
          return (ResponseEntity<Page<Memoire>>) memoireDao.findByDiplomeIntituleDiplomeLike(intituleDiplome,PageRequest.of(p, size));
-    }
+    }*/
 
     @Override
     public ResponseEntity<Memoire> updateMemoire(long id, Memoire memoire) {
@@ -63,9 +107,9 @@ public class MemoireResource implements IMemoireResource {
     public void deleteMemoire(long id) {
          memoireDao.deleteById(id);
     }
-    @Override
+   /* @Override
    public ResponseEntity<Page<Memoire>> searchByTitre(String titre, int page, int size) {
         return (ResponseEntity<Page<Memoire>>) memoireDao.findByTitre(titre, PageRequest.of(page, size));
-   }
+   }*/
 
 }

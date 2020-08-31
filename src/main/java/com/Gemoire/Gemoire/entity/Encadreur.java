@@ -37,4 +37,44 @@ private String gradeEncadreur;
  @XmlTransient
 @OneToMany(mappedBy="encadreur")
 private List<Memoire> memoires;
+
+ public Long getId() {
+  return id;
+ }
+
+ public void setId(Long id) {
+  this.id = id;
+ }
+
+ public String getNomEncadreur() {
+  return nomEncadreur;
+ }
+
+ public void setNomEncadreur(String nomEncadreur) {
+  this.nomEncadreur = nomEncadreur;
+ }
+
+ public String getTitreEncadreur() {
+  return titreEncadreur;
+ }
+
+ public void setTitreEncadreur(String titreEncadreur) {
+  this.titreEncadreur = titreEncadreur;
+ }
+
+ public String getGradeEncadreur() {
+  return gradeEncadreur;
+ }
+
+ public void setGradeEncadreur(String gradeEncadreur) {
+  this.gradeEncadreur = gradeEncadreur;
+ }
+
+ public List<Memoire> getMemoires() {
+  return memoires;
+ }
+
+ public void setMemoires(List<Memoire> memoires) {
+  this.memoires = memoires;
+ }
 }

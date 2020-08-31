@@ -15,5 +15,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface EncadreurDao extends JpaRepository<Encadreur, Long>{
-    
+    Encadreur findByNomEncadreurAndTitreEncadreurAndGradeEncadreur(String nom, String titre, String grade);
 }
