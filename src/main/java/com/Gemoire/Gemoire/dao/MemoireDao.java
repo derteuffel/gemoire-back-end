@@ -29,6 +29,6 @@ public interface MemoireDao extends JpaRepository<Memoire, Long>{
   //rrechercher un memoire par departement
   //public Page<Memoire> findByDepartementIntituleDepartementLike(String intituleDepartement,Pageable p);
   //rechercher un memoire par titre
-   List<Memoire> findAllByTitre(String titre,Sort sort);
+   Memoire findByTitre(String titre);
   
 }

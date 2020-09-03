@@ -40,6 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/rest/memoire/all","/rest/memoire/guest/**")
                 .permitAll()
+                .antMatchers("/uploads/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated();
 

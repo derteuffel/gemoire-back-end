@@ -58,6 +58,8 @@ public class Memoire implements Serializable {
     private String titreDiplome;
     private String titreFiliere;
 
+
+
     @ManyToOne
     private Etudiant etudiant;
     
@@ -73,9 +75,7 @@ public class Memoire implements Serializable {
     public Memoire() {
     }
 
-    public Memoire(Long id, String titre, String resume, String abstractMemoire, Long nombreTelechargement, Long nombreVue, String options, List<String> motCles, String dateInsertion, String dateDerniereVue, String session,
-                   String nomEtudiant, String nomEncadreur, String titreDiplome, String titreFiliere) {
-        this.id = id;
+    public Memoire(String titre, String resume, String abstractMemoire, Long nombreTelechargement, Long nombreVue, String options, List<String> motCles, String dateInsertion, String dateDerniereVue, String session, String nomEtudiant, String nomEncadreur, String titreDiplome, String titreFiliere) {
         this.titre = titre;
         this.resume = resume;
         this.abstractMemoire = abstractMemoire;
@@ -91,6 +91,8 @@ public class Memoire implements Serializable {
         this.titreDiplome = titreDiplome;
         this.titreFiliere = titreFiliere;
     }
+
+
 
     public Long getId() {
         return id;

@@ -7,11 +7,8 @@ package com.Gemoire.Gemoire.entity;
 
 import java.io.Serializable;
 import java.net.URL;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import lombok.Data;
 
 /**
@@ -25,6 +22,51 @@ public  class Pieces_jointes implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-   @Column(name="url",nullable=false)
-   private URL url; 
+
+   private String  name;
+   private String  url;
+
+
+   @OneToOne
+   private Memoire memoire;
+
+    public Pieces_jointes() {
+    }
+
+    public Pieces_jointes(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Memoire getMemoire() {
+        return memoire;
+    }
+
+    public void setMemoire(Memoire memoire) {
+        this.memoire = memoire;
+    }
 }

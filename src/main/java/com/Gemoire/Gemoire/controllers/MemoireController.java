@@ -1,28 +1,33 @@
 package com.Gemoire.Gemoire.controllers;
 
-import com.Gemoire.Gemoire.dao.EncadreurDao;
-import com.Gemoire.Gemoire.dao.EtudiantDao;
-import com.Gemoire.Gemoire.dao.FiliereDao;
-import com.Gemoire.Gemoire.dao.MemoireDao;
-import com.Gemoire.Gemoire.entity.Encadreur;
-import com.Gemoire.Gemoire.entity.Etudiant;
-import com.Gemoire.Gemoire.entity.Filiere;
-import com.Gemoire.Gemoire.entity.Memoire;
+import com.Gemoire.Gemoire.config.FileServices;
+import com.Gemoire.Gemoire.dao.*;
+import com.Gemoire.Gemoire.entity.*;
 import com.Gemoire.Gemoire.helpers.MemoireHelper;
+import com.Gemoire.Gemoire.helpers.MessageResponse;
 import com.Gemoire.Gemoire.helpers.UpdateMemoireHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.MediaType;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 @RestController
 @RequestMapping("/rest/memoire")
@@ -36,6 +41,12 @@ public class MemoireController {
     private EtudiantDao etudiantDao;
     @Autowired
     private FiliereDao filiereDao;
+
+    @Autowired
+    private FileServices fileServices;
+
+    @Autowired
+    private Pieces_jointesDao pieces_jointesDao;
 
 
     @GetMapping("/lists")
@@ -71,14 +82,24 @@ public class MemoireController {
     @GetMapping("/{id}")
     public ResponseEntity<Memoire> getOne(@PathVariable Long id){
 
-        SimpleDateFormat sdd = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat sdh = new SimpleDateFormat("hh:mm");
+
         Optional<Memoire> memoire = memoireDao.findById(id);
         if (memoire.isPresent()){
-            memoire.get().setDateDerniereVue("Le : "+sdd.format(new Date())+" a : "+sdh.format(new Date()));
-            memoire.get().setNombreVue(memoire.get().getNombreVue()+1);
-            memoireDao.save(memoire.get());
             return new ResponseEntity<>(memoire.get(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @GetMapping("/titre/{titre}")
+    public ResponseEntity<Memoire> getOneTitre(@PathVariable String titre){
+
+
+        Memoire memoire = memoireDao.findByTitre(titre);
+        if (memoire!= null){
+
+            return new ResponseEntity<>(memoire, HttpStatus.OK);
         }else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -101,6 +122,23 @@ public class MemoireController {
         }
 
     }
+
+    @GetMapping("/download/{titre}")
+    public ResponseEntity<Pieces_jointes> getOnePieces(@PathVariable String titre){
+
+
+        Optional<Pieces_jointes> pieces_jointes = pieces_jointesDao.findByName(titre);
+        if (pieces_jointes.isPresent()){
+            Memoire memoire = pieces_jointes.get().getMemoire();
+            memoire.setNombreTelechargement(memoire.getNombreTelechargement()+1);
+            memoireDao.save(memoire);
+            return new ResponseEntity<>(pieces_jointes.get(), HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
 
     @PostMapping(value = "/save")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -178,15 +216,99 @@ public class MemoireController {
             memoire.setDateInsertion(sdf.format(date));
             memoire.setDateDerniereVue(sdf.format(date));
             memoire.setSession(memoireHelper.getSession());
-
             memoireDao.save(memoire);
             System.out.println("saved");
-            return new ResponseEntity<>(memoire, HttpStatus.CREATED);
+            return new ResponseEntity<>(memoire,HttpStatus.CREATED);
         }catch (Exception e){
-            return new ResponseEntity<>((Memoire) null, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>((Memoire) null,HttpStatus.EXPECTATION_FAILED);
         }
 
     }
+    // compress the image bytes before storing it in the database
+    public static byte[] compressBytes(byte[] data) {
+        Deflater deflater = new Deflater();
+        deflater.setInput(data);
+
+        deflater.finish();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        while (!deflater.finished()) {
+            int count = deflater.deflate(buffer);
+            outputStream.write(buffer, 0, count);
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+        }
+        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+        return outputStream.toByteArray();
+    }
+
+        // uncompress the image bytes before returning it to the angular application
+    public static byte[] decompressBytes(byte[] data) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+        } catch (IOException ioe) {
+        } catch (DataFormatException e) {
+        }
+        return outputStream.toByteArray();
+    }
+
+
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<MessageResponse> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long id) {
+        String message = "";
+        Memoire memoire = memoireDao.getOne(id);
+        Pieces_jointes pieces_jointes = new Pieces_jointes();
+        pieces_jointes.setName(memoire.getTitre());
+        pieces_jointes.setMemoire(memoire);
+
+        try {
+            fileServices.save(file);
+
+            message = "Uploaded the file successfully: " + file.getOriginalFilename();
+            pieces_jointes.setUrl(file.getOriginalFilename());
+            pieces_jointesDao.save(pieces_jointes);
+            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
+        } catch (Exception e) {
+            message = "Could not upload the file: " + file.getOriginalFilename() + "!";
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new MessageResponse(message));
+        }
+    }
+
+    @GetMapping("/files")
+    public ResponseEntity<List<Pieces_jointes>> getListFiles() {
+        List<Pieces_jointes> fileInfos = fileServices.loadAll().map(path -> {
+            String filename = path.getFileName().toString();
+            String url = MvcUriComponentsBuilder
+                    .fromMethodName(MemoireController.class, "getFile", path.getFileName().toString()).build().toString();
+
+            return new Pieces_jointes(filename, url);
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+        System.out.println(filename);
+        Resource file = fileServices.load(filename);
+        System.out.println(file.getFilename());
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+
+
 
     @PostMapping(value = "/update/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
